@@ -1,11 +1,11 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import './adv.scss';
 
 // text-wrap: pretty;
 const AdvancedSearch = () => {
   const formRef = useRef(null);
   const selRef = useRef(null);
-
+  const [state, setState] = useState([]);
   const handleClick = () => {
     // const data = new FormData(formRef.current);
     // console.log(data);
@@ -16,6 +16,12 @@ const AdvancedSearch = () => {
     for (let i = 0; i < selRef.current.selectedOptions.length; i++) {
       console.log(selRef.current.selectedOptions[i].value);
     }
+  };
+
+  const handleChange = (e) => {
+    const options = e.target.selectedOptions;
+    const arr = [...Object.values(options).map((it) => it.value)];
+    setState(arr);
   };
 
   return (
@@ -83,7 +89,12 @@ const AdvancedSearch = () => {
               onChange={(e) => console.log(e.target.value)}></input>
           </div>
         </fieldset>
-        <select ref={selRef} multiple={true} name='options' value={[1, 3, 'a']}>
+        <select
+          ref={selRef}
+          multiple={true}
+          name='options'
+          onChange={handleChange}
+          value={state}>
           <optgroup label='first'>
             <option value='1'>hello 1</option>
             <option value='2'>hello 2</option>
